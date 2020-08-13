@@ -2,8 +2,8 @@ import React from "react";
 import { Col } from "antd";
 
 function Card(props) {
-  return (
-    <div>
+  if (props.landingPage) {
+    return (
       <Col lg={6} md={8} xs={24}>
         <div styple={{ position: "relative" }}>
           <a href={`/movie/${props.movieId}`}>
@@ -15,8 +15,20 @@ function Card(props) {
           </a>
         </div>
       </Col>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <Col lg={6} md={8} xs={24}>
+        <div styple={{ position: "relative" }}>
+          <img
+            style={{ width: "100%", height: "320px" }}
+            src={props.image}
+            alt={props.actorName}
+          />
+        </div>
+      </Col>
+    );
+  }
 }
 
 export default Card;

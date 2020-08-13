@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { API_URL, API_KEY, IMAGE_BASE_URL } from "../../Config";
 import MainImage from "../LandingPage/Section/MainImage";
 import MovieInfo from "./Section/MovieInfo";
+import Card from "../commons/Card";
+import { Row } from "antd";
 
 function MovieDetail(props) {
   let movieId = props.match.params.movieId;
 
   const [Movie, setMovie] = useState([]);
-
+  const [Actor, setActor] = useState([]);
+  const [ActorToggle, setActorToggle] = useState(false);
   useEffect(() => {
     console.log(props.match);
 
@@ -21,7 +24,19 @@ function MovieDetail(props) {
         console.log(response);
         setMovie(response);
       });
+
+    fetch(endpointCrew)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log("crew response", response);
+        setActor(response.cast);
+      });
   }, []);
+
+  const toggleToSeeActor = () => {
+    setActorToggle(!ActorToggle);
+  };
+
   return (
     <div>
       {/* header */}
@@ -39,8 +54,26 @@ function MovieDetail(props) {
         <div
           style={{ display: "flex", justifyContent: "center", margin: "2rem" }}
         >
-          <button>click to see actors</button>
+          <button onClick={toggleToSeeActor}>about actors</button>
         </div>
+
+        {ActorToggle && (
+          <Row gutter={[16, 16]}>
+            {Actor &&
+              Actor.map((item, index) => (
+                <React.Fragment key={index}>
+                  <Card
+                    image={
+                      item.profile_path
+                        ? `${IMAGE_BASE_URL}w500${item.profile_path}`
+                        : null
+                    }
+                    actorName={item.name}
+                  />
+                </React.Fragment>
+              ))}
+          </Row>
+        )}
       </div>
     </div>
   );
