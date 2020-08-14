@@ -61,6 +61,7 @@ function LandingPage() {
               Movies.map((item, index) => (
                 <React.Fragment key={index}>
                   <Card
+                    landingPage
                     image={
                       item.poster_path
                         ? `${IMAGE_BASE_URL}w500${item.poster_path}`

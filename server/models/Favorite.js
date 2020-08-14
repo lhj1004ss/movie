@@ -1,11 +1,28 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-const jwt = require("jsonwebtoken");
-const moment = require("moment");
+const Schema = mongoose.Schema;
 
-const userSchema = mongoose.Schema({});
+const favoriteSchema = mongoose.Schema(
+  {
+    userFrom: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    movieId: {
+      type: String,
+    },
+    movieTitle: {
+      type: String,
+    },
+    moviePost: {
+      type: String,
+    },
+    movieRuntime: {
+      type: String,
+    },
+  },
+  // automatic time generated
+  { timestamps: true }
+);
+const Favorite = mongoose.model("Favorite", favoriteSchema);
 
-const User = mongoose.model("User", userSchema);
-
-module.exports = { User };
+module.exports = { Favorite };
