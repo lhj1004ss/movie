@@ -53,4 +53,24 @@ router.post("/addToFavortie", (req, res) => {
   });
 });
 
+//get favorite movie to favorite page
+router.post("/getFavoriteMovie", (req, res) => {
+  Favorite.find({ userFrom: req.body.userFrom }).exec((err, favorites) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true, favorites });
+  });
+});
+
+//remove from favorite list
+router.post("/removeFromFavorite", (req, res) => {
+  Favorite.findByIdAndDelete({
+    movieId: req.body,
+    movieId,
+    userFrom: req.body.userFrom,
+  }).exec((err, result) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true });
+  });
+});
+
 module.exports = router;
